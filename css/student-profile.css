@@ -1,0 +1,59 @@
+/* ===== PROFILE IMAGE ===== */
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid #0d6efd;
+  transition: 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+  border-color: #0a58ca;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card {
+  background: linear-gradient(to bottom right, #f0f8ff, #e6f0ff);
+  border: none;
+}
+
+/* ===== PROGRESS BAR STYLE ===== */
+.progress {
+  height: 8px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  background-color: #0d6efd;
+}
+
+/* ===== COURSE ITEM ===== */
+#enrolledCourses .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid #eee;
+  padding: 15px 10px;
+}
+
+#enrolledCourses .list-group-item:last-child {
+  border-bottom: none;
+}
+.card-title a {
+  text-decoration: none;
+  color: black;
+  font-size: large;
+
+}
+/* Optional styling */
+.course-block {
+  width: 100%;
+}
+
+.progress-animated {
+  transition: width 1s ease-in-out;
+  font-weight: 500;
+  font-size: 14px;
+}

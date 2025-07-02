@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnNest | Student Progress Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-white to-blue-100 text-blue-900 min-h-screen py-10">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 text-white py-4 shadow mb-8">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-4">
+      <span class="text-2xl font-bold tracking-wide">LearnNest</span>
+    </div>
+  </nav>
+  
+  <!-- Progress Tracker Section (Always Visible) -->
+  <div id="tracker-screen" class="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">📘 Course Progress Tracker</h1>
+    </div>
+
+    <p class="mb-4 text-blue-800 font-semibold" id="student-name">Welcome, Student</p>
+
+    <!-- Progress Bar -->
+    <div class="mb-6">
+      <div class="flex justify-between mb-2 text-sm font-medium">
+        <span>Progress</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="w-full bg-blue-100 rounded-full h-5">
+        <div id="progress-bar" class="bg-blue-500 h-5 rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Modules List -->
+    <ul class="space-y-4 mt-6" id="module-list">
+      <!-- Items will be generated with JavaScript -->
+    </ul>
+
+    <!-- Summary -->
+    <p class="mt-8 text-sm text-blue-700 font-medium" id="summary-text">
+      You have completed 0 out of 0 tasks.
+    </p>
+  </div>
+
+  <script>
+    const modules = [
+      "Module 1: Introduction",
+      "Module 2: HTML Basics",
+      "Module 3: CSS Styling",
+      "Module 4: JavaScript Intro",
+      "Module 5: React Components",
+      "Quiz 1: HTML & CSS",
+      "Assignment 1: Build a Web Page",
+      "Final Project: Course Website"
+    ];
+
+    const moduleList = document.getElementById('module-list');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercent = document.getElementById('progress-percent');
+    const summaryText = document.getElementById('summary-text');
+
+    let checkedStatus = [];
+
+    // IndexedDB setup
+    let db;
+    const DB_NAME = 'LearnNestDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'progress';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = function (event) {
+          db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'student' });
+          }
+        };
+        request.onsuccess = function (event) {
+          db = event.target.result;
+          resolve(db);
+        };
+        request.onerror = function (event) {
+          reject(event.target.error);
+        };
+      });
+    }
+
+    function saveProgress(student, checkedStatus) {
+      return openDB().then(db => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.put({ student, checkedStatus });
+          tx.oncomplete = resolve;
+          tx.onerror = reject;
+        });
+      });
+    }
+
+    function loadProgress(student) {
+      return openDB().then(db => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.get(student);
+          req.onsuccess = () => {
+            resolve(req.result ? req.result.checkedStatus : null);
+          };
+          req.onerror = reject;
+        });
+      });
+    }
+
+    async function updateProgress() {
+      const completed = checkedStatus.filter(Boolean).length;
+      const total = modules.length;
+      const percent = Math.round((completed / total) * 100);
+
+      progressBar.style.width = percent + '%';
+      progressPercent.textContent = percent + '%';
+      summaryText.textContent = `You have completed ${completed} out of ${total} tasks.`;
+
+      await saveProgress('default-student', checkedStatus);
+    }
+
+    async function loadModules() {
+      moduleList.innerHTML = '';
+      modules.forEach((module, index) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center space-x-4';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = checkedStatus[index];
+        checkbox.className = 'w-5 h-5 text-blue-600 border-gray-300 rounded';
+
+        checkbox.addEventListener('change', async () => {
+          checkedStatus[index] = checkbox.checked;
+          await updateProgress();
+        });
+
+        const label = document.createElement('label');
+        label.textContent = module;
+        label.className = 'text-base';
+
+        li.appendChild(checkbox);
+        li.appendChild(label);
+        moduleList.appendChild(li);
+      });
+    }
+
+    // On page load (no login required)
+    (async function () {
+      checkedStatus = (await loadProgress('default-student')) || Array(modules.length).fill(false);
+      await loadModules();
+      await updateProgress();
+    })();
+  </script>
+</body>
+</html>

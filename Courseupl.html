@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload New Course</title>
+    <link rel="stylesheet" href="Course up.css">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background: #f5f8ff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+header{
+    background-color: #0066cc;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+main{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    flex-direction: column;
+}
+.form-container{
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+.form-container h2{
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+textarea{
+    resize: vertical;
+    min-height: 80px;
+}
+button{
+    width: 100%;
+    padding: 12px;
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+button:hover{
+    background-color: #008ecc;
+}
+footer{
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
+.back-btn {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 1em;
+}
+.back-btn:hover {
+    background-color: #005bb5;
+}
+    </style>
+</head>
+<body>
+    <header>
+        LearnNest - Upload Course
+    </header>
+    <main>
+        <button onclick="window.location.href='instructor-dashboard.html'" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back to Instructor Dashboard
+        </button>
+        <div class="form-container">
+            <h2>Upload New Course</h2>
+            <form action="#" method="post" enctype="multipart/form-data">
+                <label for="title">Course Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="Description">Description</label>
+                <textarea  id="Description" name="Description" required></textarea>
+
+                <label for="video">Upload Video:</label>
+                <input type="file" id="video" name="video" required>
+
+                <label for="Notes">Upload Notes(PDF):</label>
+                <input type="file" id="Notes" name="Notes" accept="application/pdf">
+
+                <label for="Assignment">Upload Assignment</label>
+                <input type="file" id="Assignment" name="Assignment">
+
+                <button type="submit">Upload Course</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        &copy;2025 LearnNest. All rights reserved.
+    </footer>
+    <script src="Script.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('uploaded') === '1') {
+        alert('Course uploaded successfully!');
+      }
+    });
+    </script>
+</body>
+</html>

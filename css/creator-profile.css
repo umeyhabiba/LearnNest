@@ -1,0 +1,88 @@
+/* ===== PROFILE PICTURE ===== */
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid #198754;
+  transition: 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+  border-color: #146c43;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card {
+  background: linear-gradient(to bottom right, #f0fff0, #e6ffe6);
+  border: none;
+}
+
+/* ===== COURSE LIST ITEM ===== */
+#uploadedCourses .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#uploadedCourses .list-group-item:last-child {
+  border-bottom: none;
+}
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth badge count animation */
+.badge-counting {
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+/* Hover effect (optional) */
+#uploadedCourses .list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: scale(1.01);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Fade-in animation for course items */
+.uploaded-course {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+}
+
+/* Make them visible one-by-one with JS */
+.uploaded-course.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover effect */
+.uploaded-course:hover {
+  background-color: #f9f9f9;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
