@@ -1,3 +1,51 @@
+<?php
+require 'db.php';
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email    = $_POST['email'];
+    $password = $_POST['password'];
+
+    // ✅ Check instructors (creators)
+    $stmt = $pdo->prepare("SELECT * FROM instructors WHERE Email = ? AND Password = ?");
+    $stmt->execute([$email, $password]);
+    $instructor = $stmt->fetch();
+
+    if ($instructor) {
+        // Old variable (for existing code)
+        $_SESSION['instructor_name'] = $instructor['FirstName'] . ' ' . $instructor['LastName'];
+
+        // New variables (for profile pages)
+        $_SESSION['user_id']   = $instructor['id'];
+        $_SESSION['user_type'] = 'creator';
+        $_SESSION['full_name'] = $instructor['FirstName'] . ' ' . $instructor['LastName'];
+
+        header('Location: instructor-dashboard.php'); 
+        exit;
+    }
+
+    // ✅ Check students
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE Email = ? AND Password = ?");
+    $stmt->execute([$email, $password]);
+    $student = $stmt->fetch();
+
+    if ($student) {
+        // Old variable (for existing code)
+        $_SESSION['student_name'] = $student['FirstName'] . ' ' . $student['LastName'];
+
+        // New variables (for profile pages)
+        $_SESSION['user_id']   = $student['id'];
+        $_SESSION['user_type'] = 'student';
+        $_SESSION['full_name'] = $student['FirstName'] . ' ' . $student['LastName'];
+
+        header('Location: student-dashboard.php');
+        exit;
+    }
+
+    // ❌ Invalid login
+    echo '<div class="alert alert-danger text-center">Invalid email or password.</div>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,38 +84,9 @@
             <a href="courses.html" class="nav-item nav-link">Courses</a>
             <a href="contact.html" class="nav-item nav-link">Contact</a>
         </div>
-        
     </div>
 </nav>
 <!-- Navbar End -->
-
-<?php
-require 'db.php';
-session_start();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    // Check instructors first
-    $stmt = $pdo->prepare("SELECT * FROM instructors WHERE Email = ? AND Password = ?");
-    $stmt->execute([$email, $password]);
-    $instructor = $stmt->fetch();
-    if ($instructor) {
-        $_SESSION['instructor_name'] = $instructor['FirstName'] . ' ' . $instructor['LastName'];
-        header('Location: instructor-dashboard.php');
-        exit;
-    }
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE Email = ? AND Password = ?");
-    $stmt->execute([$email, $password]);
-    $student = $stmt->fetch();
-    if ($student) {
-        $_SESSION['student_name'] = $student['FirstName'] . ' ' . $student['LastName'];
-        header('Location: student-dashboard.php');
-        exit;
-    }
-    
-    echo '<div class="alert alert-danger text-center">Invalid email or password.</div>';
-}
-?>
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
   <div class="card p-4 shadow rounded-4 fade-in" style="width: 100%; max-width: 400px;">

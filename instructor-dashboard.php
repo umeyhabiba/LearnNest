@@ -316,9 +316,9 @@ $image = $instructor && !empty($instructor['Image']) ? 'imageuploade/' . $instru
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><a href="instructor-dashboard.html" class="text-decoration-none text-primary"><i class="fa-solid fa-gauge me-2"></i>Dashboard Home</a></li>
                         <li class="list-group-item"><a href="Courseupl.html" class="text-decoration-none text-primary"><i class="fa-solid fa-upload me-2"></i>Course Upload</a></li>
-                        <li class="list-group-item"><a href="create-course.php" class="text-decoration-none text-primary"><i class="fa-solid fa-plus me-2"></i>Create Course</a></li>
+                        <!-- <li class="list-group-item"><a href="create-course.php" class="text-decoration-none text-primary"><i class="fa-solid fa-plus me-2"></i>Create Course</a></li> -->
                         <li class="list-group-item"><a href="creator-profile.php" class="text-decoration-none text-primary"><i class="fa-solid fa-user me-2"></i>Creator Profile</a></li>
-                        <li class="list-group-item"><a href="edit-profile.php" class="text-decoration-none text-primary"><i class="fa-solid fa-user-pen me-2"></i>Edit Profile</a></li>
+                        <!-- <li class="list-group-item"><a href="edit-profile.php" class="text-decoration-none text-primary"><i class="fa-solid fa-user-pen me-2"></i>Edit Profile</a></li> -->
                         <li class="list-group-item"><a href="forum-home.PHP" class="text-decoration-none text-primary"><i class="fa-solid fa-comments me-2"></i>Forum</a></li>
                     </ul>
                 </div>
