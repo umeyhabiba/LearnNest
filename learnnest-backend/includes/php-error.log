@@ -1,0 +1,10 @@
+[28-Jun-2025 21:17:21 Europe/Berlin] PHP Warning:  Undefined variable $conn in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php on line 46
+[28-Jun-2025 21:17:21 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php:46
+Stack trace:
+#0 {main}
+  thrown in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php on line 46
+[28-Jun-2025 21:17:48 Europe/Berlin] PHP Warning:  Undefined variable $conn in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php on line 46
+[28-Jun-2025 21:17:48 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php:46
+Stack trace:
+#0 {main}
+  thrown in E:\PROGRAMMING\CODDING\xampp backend\htdocs\learnnest-backend\api\update-course.php on line 46

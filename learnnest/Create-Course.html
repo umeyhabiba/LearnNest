@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Course - LearnNest</title>
+<!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #1a202c;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .sidebar {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h2 {
+      font-size: 1.2rem;
+      margin-top: 15px;
+      margin-bottom: 30px;
+      color: white;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar a.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .sidebar-toggle-btn {
+      display: none;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 2rem;
+      transition: margin-left 0.3s;
+      background-color: #f8fafc;
+    }
+
+    .form-label {
+      color: #4a5568;
+    }
+
+    .form-control, .form-select {
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      color: #1a202c;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .btn-info {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    select::placeholder {
+      color: #718096 !important;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin: 0.7rem 0 0 0;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar h2 {
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+        margin-top: 15px;
+        margin-left: 35px;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-toggle-btn {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0 !important;
+      }
+
+      .text-info {
+        --bs-text-opacity: 1;
+        margin: -0.9rem 0 0 1rem;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+  <iframe src="ultra-loader.html" style="border:0;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;" frameborder="0"></iframe>
+
+
+  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>LearnNest by Technify</h2>
+    <a href="Dashboard-Home.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a href="My-Courses.html"><i class="fas fa-book"></i> My Courses</a>
+    <a href="Create-Course.html" class="active"><i class="fa-solid fa-square-plus"></i> Create Course</a>
+    <a href="Students.html"><i class="fas fa-user-graduate"></i> Students</a>
+    <a href="Earnings.html"><i class="fas fa-wallet"></i> Earnings</a>
+    <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+    <a href="Settings.html"><i class="fas fa-cog"></i> Settings</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="container-fluid">
+      <h2 class="mb-4 text-info">Create New Course</h2>
+      <form id="createCourseForm">
+        <div class="mb-3">
+          <label for="courseName" class="form-label">Course Title</label>
+          <input type="text" class="form-control" id="courseName" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="duration" class="form-label">Duration</label>
+          <input type="text" class="form-control" id="duration" placeholder="e.g. 12 hours" required>
+        </div>
+
+        <div class="mb-3">
+  <label for="price" class="form-label">Price ($)</label>
+  <input type="number" class="form-control" id="price" min="0" step="0.01" placeholder="0.00" required>
+</div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select id="category" class="form-select" required>
+            <option value="">Select a category</option>
+            <option>Backend Dev</option>
+            <option>Programming</option>
+            <option>Design</option>
+            <option>Web Dev</option>
+            <option>UI/UX</option>
+            <option>Front-End</option>
+            <option>Language</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="students" class="form-label">Students Enrolled</label>
+          <input type="number" class="form-control" id="students" placeholder="Optional">
+        </div>
+
+        <div class="mb-3">
+          <label for="status" class="form-label">Status</label>
+          <select id="status" class="form-select" required>
+            <option value="Published">Published</option>
+            <option value="Draft">Draft</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="previewVideo" class="form-label">Upload Preview Video</label>
+          <input type="file" class="form-control" id="previewVideo">
+        </div>
+
+        <div class="d-flex gap-3">
+          <button type="submit" class="btn btn-info">Save Course</button>
+          <a href="Dashboard-Home.html" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+  <div id="toast" class="toast bg-dark text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">This is a toast</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    document.getElementById("createCourseForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const name        = document.getElementById("courseName").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const duration    = document.getElementById("duration").value.trim();
+  const price       = document.getElementById("price").value; // New field
+  const category    = document.getElementById("category").value;
+  const students    = document.getElementById("students").value || 0;
+  const status      = document.getElementById("status").value;
+
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("duration", duration);
+  formData.append("price", price); // New field
+  formData.append("category", category);
+  formData.append("students", students);
+  formData.append("status", status);
+
+  try {
+    const response = await fetch("../learnnest-backend/api/create-course.php", {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      showToast("✅ " + result.message);
+      document.getElementById("createCourseForm").reset();
+    } else {
+      showToast("❌ Error: " + result.message, "danger");
+    }
+
+  } catch (error) {
+    showToast("❌ Request failed: " + error.message, "danger");
+  }
+});
+    
+    // toast message popup
+function showToast(message, type = "success") {
+  const toastEl = document.getElementById("toast");
+  const toastMessage = document.getElementById("toastMessage");
+
+  toastMessage.textContent = message;
+  toastEl.className = `toast align-items-center text-bg-${type} border-0 show`;
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+}
+  </script>
+</body>
+</html>

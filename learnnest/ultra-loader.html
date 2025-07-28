@@ -1,0 +1,190 @@
+<!-- Ultra Loader (One-File Version) -->
+<div class="ultra-loader-overlay">
+  <div class="ultra-loader-background"></div>
+  <div class="ultra-loader-container">
+    <svg class="particle-network" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"></svg>
+    <div class="brand-logo-loader">
+      <svg viewBox="0 0 200 50" class="loader-logo">
+        <path d="M20,10 L180,10 L180,40 L20,40 Z" fill="none" stroke="#ffffff" stroke-width="2"/>
+        <text x="100" y="30" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="16">LEARNNEST</text>
+      </svg>
+    </div>
+    <div class="progress-counter">0%</div>
+  </div>
+</div>
+
+<style>
+  .ultra-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+  }
+  .ultra-loader-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+  }
+  .ultra-loader-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+    z-index: 2;
+  }
+  .particle-network {
+    width: 100%;
+    height: 100%;
+  }
+  .brand-logo-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 50px;
+    z-index: 3;
+    opacity: 0;
+    animation: logoFadeIn 2s ease forwards 0.5s;
+  }
+  .loader-logo {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.7));
+  }
+  .progress-counter {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    z-index: 4;
+  }
+  .particle {
+    fill: rgba(255, 255, 255, 0.8);
+    will-change: transform;
+    animation: particlePulse 2s infinite ease-in-out;
+  }
+  .particle-connection {
+    stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 1px;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes particlePulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  @keyframes logoFadeIn {
+    0% { opacity: 0; transform: translate(-50%, -40%); }
+    100% { opacity: 1; transform: translate(-50%, -50%); }
+  }
+  @media (max-width: 768px) {
+    .ultra-loader-container {
+      max-width: 200px;
+      height: 200px;
+    }
+    .progress-counter {
+      font-size: 18px;
+      bottom: 15%;
+    }
+    .brand-logo-loader {
+      width: 150px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loaderOverlay = document.querySelector('.ultra-loader-overlay');
+    const progressCounter = document.querySelector('.progress-counter');
+    const particleNetwork = document.querySelector('.particle-network');
+
+    const particleCount = 15;
+    const particles = [];
+    const connections = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      particle.classList.add('particle');
+      particle.setAttribute('r', Math.random() * 4 + 2);
+      particle.setAttribute('cx', Math.random() * 250 + 25);
+      particle.setAttribute('cy', Math.random() * 250 + 25);
+      particle.style.animationDelay = `${Math.random() * 2}s`;
+      particleNetwork.appendChild(particle);
+      particles.push(particle);
+
+      if (i > 0) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.classList.add('particle-connection');
+        line.setAttribute('x1', particles[i - 1].getAttribute('cx'));
+        line.setAttribute('y1', particles[i - 1].getAttribute('cy'));
+        line.setAttribute('x2', particle.getAttribute('cx'));
+        line.setAttribute('y2', particle.getAttribute('cy'));
+        particleNetwork.appendChild(line);
+        connections.push(line);
+      }
+    }
+
+    const closingLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    closingLine.classList.add('particle-connection');
+    closingLine.setAttribute('x1', particles[0].getAttribute('cx'));
+    closingLine.setAttribute('y1', particles[0].getAttribute('cy'));
+    closingLine.setAttribute('x2', particles[particles.length - 1].getAttribute('cx'));
+    closingLine.setAttribute('y2', particles[particles.length - 1].getAttribute('cy'));
+    particleNetwork.appendChild(closingLine);
+    connections.push(closingLine);
+
+    function animateParticles() {
+      particles.forEach(particle => {
+        const currentX = parseFloat(particle.getAttribute('cx'));
+        const currentY = parseFloat(particle.getAttribute('cy'));
+        const newX = currentX + (Math.random() * 2 - 1) * 2;
+        const newY = currentY + (Math.random() * 2 - 1) * 2;
+
+        particle.setAttribute('cx', Math.max(10, Math.min(290, newX)));
+        particle.setAttribute('cy', Math.max(10, Math.min(290, newY)));
+      });
+
+      connections.forEach((line, index) => {
+        const p1 = index === connections.length - 1 ? particles[0] : particles[index];
+        const p2 = index === connections.length - 1 ? particles[particles.length - 1] : particles[index + 1];
+        line.setAttribute('x1', p1.getAttribute('cx'));
+        line.setAttribute('y1', p1.getAttribute('cy'));
+        line.setAttribute('x2', p2.getAttribute('cx'));
+        line.setAttribute('y2', p2.getAttribute('cy'));
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    window.addEventListener('load', function() {
+      progressCounter.textContent = '100%';
+      setTimeout(() => {
+  if (window.frameElement) {
+    window.frameElement.remove(); // removes the iframe itself
+  } else {
+    loaderOverlay.style.display = 'none';
+  }
+}, 800);
+    });
+  });
+</script>

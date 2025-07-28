@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Courses - LearnNest</title>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+ <style>
+    body {
+      background-color: #f8fafc;
+      color: #1a202c;
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+    }
+
+    .text-info {
+      color: #667eea !important;
+      margin: -0.9rem 0 0 1rem;
+    }
+
+    .sidebar {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h2 {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      margin-top: 15px;
+      color: white;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      display: block;
+      color: rgba(255, 255, 255, 0.9);
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar a.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .sidebar-toggle-btn {
+      display: none;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 2rem;
+      transition: margin-left 0.3s;
+      background-color: #f8fafc;
+    }
+
+    .course-table th,
+    .course-table td {
+      vertical-align: middle;
+    }
+
+    .text-muted {
+      color: #718096 !important;
+    }
+
+    /* Table styles */
+    .table {
+      background-color: white;
+      color: #1a202c;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Badges */
+    .badge {
+      font-weight: 500;
+    }
+
+    /* Buttons */
+    .btn-info {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin: 0.7rem 0 0 0;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar h2 {
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+        margin-top: 15px;
+        margin-left: 35px;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-toggle-btn {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0 !important;
+      }
+    }
+  </style>
+  </head>
+  <body>
+  <iframe src="ultra-loader.html" style="border:0;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;" frameborder="0"></iframe>
+
+
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <h2>LearnNest by Technify</h2>
+  <a href="Dashboard-Home.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+  <a href="MyCourses.html" class="active"><i class="fas fa-book"></i> My Courses</a>
+  <a href="Create-Course.html"><i class="fa-solid fa-square-plus"></i> Create Course</a>
+  <a href="Students.html"><i class="fas fa-user-graduate"></i> Students</a>
+  <a href="Earnings.html"><i class="fas fa-wallet"></i> Earnings</a>
+  <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+  <a href="Settings.html"><i class="fas fa-cog"></i> Settings</a>
+</div>
+
+
+    <!-- Main Content -->
+    <div class="main">
+  <div class="container-fluid">
+    <!-- <h2 class="mb-4 text-info">My Courses</h2> -->
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover course-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <td>Price</td>
+            <th>Students</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="coursesTableBody">
+          <tr><td colspan="7" class="text-center text-muted">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Pagination -->
+<div class="d-flex justify-content-center mt-3">
+    <div id="coursesPagination" class="btn-group btn-group-sm"></div>
+</div>
+</div>
+
+<!-- Toast Container -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+  <div id="toast" class="toast bg-dark text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">This is a toast</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Bootstrap JS Bundle (includes Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+    <!-- Edit Course Modal -->
+<div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-light rounded-4">
+      <form id="editCourseForm">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-info" id="editCourseModalLabel">Edit Course</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editCourseId">
+          <div class="mb-3">
+            <label class="form-label">Course Title</label>
+            <input type="text" class="form-control" id="editCourseName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="editDescription" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-control" id="editDuration" required>
+          </div>
+
+          <div class="mb-3">
+  <label class="form-label">Price ($)</label>
+  <input type="number" class="form-control" id="editPrice" min="0" step="0.01" required>
+</div>
+
+
+          <div class="mb-3">
+            <label class="form-label">Students</label>
+            <input type="number" class="form-control" id="editStudents">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="editStatus" required>
+              <option value="Published">Published</option>
+              <option value="Draft">Draft</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="submit" class="btn btn-info">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap JS Bundle (includes Popper.js) -->
+ <script src="My-Courses.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>
